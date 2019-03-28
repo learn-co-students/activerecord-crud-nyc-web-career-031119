@@ -21,6 +21,8 @@ def can_be_created_with_a_hash_of_attributes
       in_theaters: false
   }
   movie = Movie.create(attributes)
+  movie.save
+  movie
 end
 
 def can_be_created_in_a_block(arg = {title:"Home Alone", release_date:1990})
@@ -31,6 +33,7 @@ def can_be_created_in_a_block(arg = {title:"Home Alone", release_date:1990})
   Movie.create do |m|
     m.title = arg[:title]
     m.release_date = arg[:release_date]
+    m.save
   end
 end
 
@@ -61,13 +64,12 @@ end
 def can_find_using_where_clause_and_be_sorted
   # For this test return all movies released after 2002 and ordered by
   # release date descending
-  Movie.all.where("release_date > 2002").order(release_date: :DESC)
+  Movie.where("release_date > 2002").order(release_date: :DESC)
 end
 
 def can_be_found_updated_and_saved
   # Updtate the title "Awesome Flick" to "Even Awesomer Flick", save it, then return it
   movie = Movie.find_by(title: "Awesome Flick")
-  movie.title = "Even Awesomer Flick"
   movie.update(title: "Even Awesomer Flick")
   movie.save
 end
@@ -75,7 +77,6 @@ end
 def can_update_using_update_method
   # Update movie title to "Wat, huh?"
   movie = Movie.create(title: "Wat?")
-  movie.title = "Wat, huh?"
   movie.update(title: "Wat, huh?")
 end
 
